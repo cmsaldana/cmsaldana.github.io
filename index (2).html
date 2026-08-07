@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christopher M. Saldaña — University of Wisconsin–Madison</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F7F7;
+    --warm-white: #FFFFFF;
+    --parchment: #E1E5E7;
+    --ink: #121212;
+    --ink-light: #3B3B3B;
+    --ink-muted: #6B6B6B;
+    --accent: #C5050C; /* UW Badger Red */
+    --accent-soft: #9B0000; /* UW Dark Red */
+    --accent-hover: #9B0000;
+    --rule: #D1D5D8;
+    --rule-light: #E1E5E7;
+    --shadow: rgba(18, 18, 18, 0.06);
+    --shadow-md: rgba(18, 18, 18, 0.1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', 'Georgia', serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d1d5d8' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrapper { position: relative; z-index: 1; }
+
+  .container {
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3.5rem 0 2.25rem;
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F7F7F7 100%);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .portrait {
+    width: 155px;
+    height: 155px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--rule);
+    box-shadow: 0 4px 20px var(--shadow-md);
+    flex-shrink: 0;
+    background: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .header-text { padding-top: 0.15rem; }
+
+  .header-text h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .header-text .title-line {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    margin-top: 0.35rem;
+  }
+
+  .header-text .affiliation {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.12rem;
+    font-style: italic;
+    color: var(--accent-soft);
+    margin-top: 0.15rem;
+  }
+
+  .contact-row {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .contact-row a {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule-light);
+    transition: all 0.2s ease;
+    font-weight: 400;
+  }
+
+  .contact-row a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .contact-sep {
+    color: var(--rule);
+    font-size: 0.7rem;
+    user-select: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: blur(10px);
+    background: rgba(247, 247, 247, 0.92);
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0;
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  nav a {
+    display: block;
+    padding: 0.9rem 1.25rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    border-bottom: 2px solid transparent;
+    transition: all 0.25s ease;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 3.5rem 0;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  section + section { border-top: 1px solid var(--rule-light); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1.75rem;
+    position: relative;
+    padding-bottom: 0.6rem;
+  }
+
+  h2.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2.5px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── ABOUT ── */
+  .bio-text {
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    max-width: 700px;
+  }
+
+  .bio-text p + p { margin-top: 1rem; }
+
+  .research-interests {
+    margin-top: 1.75rem;
+    padding: 1.5rem 1.75rem;
+    background: var(--warm-white);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+  }
+
+  .research-interests h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .interests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .interest-tag {
+    padding: 0.3rem 0.85rem;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .interest-tag:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  /* ── PUBLICATIONS ── */
+  .pub-section-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .pub-section-label:first-of-type { margin-top: 0; }
+
+  .pub-access-note {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    margin-bottom: 1.25rem;
+    font-style: italic;
+  }
+
+  .pub-access-note a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    transition: color 0.2s;
+  }
+
+  .pub-access-note a:hover {
+    color: var(--accent-hover);
+  }
+
+  .pub-item {
+    padding: 1rem 1.4rem;
+    background: var(--warm-white);
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+  }
+
+  .pub-item:hover {
+    border-color: var(--rule);
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+
+  .pub-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 0.4rem;
+  }
+
+  .pub-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .pub-authors {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    margin-top: 0.2rem;
+  }
+
+  .pub-venue {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--accent-soft);
+    margin-top: 0.15rem;
+  }
+
+  .pub-status {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.55rem;
+    border-radius: 3px;
+    margin-top: 0.35rem;
+  }
+
+  .pub-links {
+    margin-top: 0.4rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .pub-links a {
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    transition: all 0.2s;
+  }
+
+  .pub-links a:hover {
+    color: var(--accent-hover);
+    border-bottom-style: solid;
+  }
+
+  .status-published { background: #e8f5e9; color: #2e7d32; }
+  .status-forthcoming { background: #fff3e0; color: #e65100; }
+  .status-review { background: #e3f2fd; color: #1565c0; }
+
+  /* ── TEACHING ── */
+  .teaching-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .course-card {
+    padding: 1.5rem;
+    background: var(--warm-white);
+    border-radius: 8px;
+    border: 1px solid var(--rule-light);
+    transition: all 0.3s ease;
+  }
+
+  .course-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-md);
+    border-color: var(--rule);
+  }
+
+  .course-code {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .course-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.12rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  .course-term {
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+    margin-top: 0.35rem;
+  }
+
+  .advising-section { margin-top: 2.5rem; }
+
+  .advising-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .advising-text {
+    font-size: 0.98rem;
+    color: var(--ink-light);
+    line-height: 1.7;
+  }
+
+  .advising-text p + p { margin-top: 0.75rem; }
+
+  /* ── CV ── */
+  .cv-intro {
+    font-size: 1.02rem;
+    color: var(--ink-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .cv-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(197, 5, 12, 0.2);
+  }
+
+  .cv-download-btn:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(197, 5, 12, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .cv-download-btn svg { width: 18px; height: 18px; }
+
+  .cv-timeline { margin-top: 2.5rem; }
+  .cv-category + .cv-category { margin-top: 2rem; }
+
+  .cv-category h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .cv-entry {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 1.25rem;
+    padding: 0.65rem 0;
+  }
+
+  .cv-entry + .cv-entry { border-top: 1px dotted var(--rule-light); }
+
+  .cv-year-range {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    font-weight: 500;
+    padding-top: 0.1rem;
+  }
+
+  .cv-detail-title {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 0.98rem;
+  }
+
+  .cv-detail-sub {
+    font-size: 0.92rem;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .cv-funding-item {
+    padding: 1rem 1.4rem;
+    background: var(--warm-white);
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    border: 1px solid transparent;
+    transition: all 0.25s ease;
+  }
+
+  .cv-funding-item:hover {
+    border-color: var(--rule);
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+
+  .cv-funding-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    color: var(--ink);
+  }
+
+  .cv-funding-detail {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    margin-top: 0.15rem;
+  }
+
+  .cv-funding-collab {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+
+  .cv-funding-amount {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    margin-top: 1rem;
+  }
+
+  footer a {
+    color: var(--accent-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  footer a:hover { border-color: var(--accent-soft); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .header-inner { flex-direction: column; align-items: center; text-align: center; }
+    .contact-row { justify-content: center; }
+    nav ul { justify-content: center; flex-wrap: wrap; }
+    nav a { padding: 0.75rem 0.9rem; font-size: 1rem; }
+    .header-text h1 { font-size: 2.1rem; }
+    .teaching-grid { grid-template-columns: 1fr; }
+    .cv-entry { grid-template-columns: 1fr; gap: 0.25rem; }
+    .container { padding: 0 1.25rem; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <img class="portrait" src="cms_headshot.jpeg" alt="Christopher M. Saldaña">
+        <div class="header-text">
+          <h1>Christopher M. Salda&ntilde;a</h1>
+          <div class="title-line">Assistant Professor, Department of Educational Leadership &amp; Policy Analysis</div>
+          <div class="affiliation">University of Wisconsin&ndash;Madison</div>
+          <div class="contact-row">
+            <a href="mailto:cmsaldana@wisc.edu">cmsaldana@wisc.edu</a>
+            <span class="contact-sep">&bull;</span>
+            <a href="https://scholar.google.com/scholar?hl=en&as_sdt=0%2C50&q=cm+saldana&btnG=" target="_blank" rel="noopener">Google Scholar</a>
+            <span class="contact-sep">&bull;</span>
+            <a href="https://orcid.org/0000-0001-9149-5843" target="_blank" rel="noopener">ORCID</a>
+            <span class="contact-sep">&bull;</span>
+            <a href="https://bsky.app/profile/cmsaldana.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#about" class="active">About</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#teaching">Teaching</a></li>
+      <li><a href="#cv">CV</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section id="about">
+    <div class="container reveal">
+      <h2 class="section-title">About</h2>
+      <div class="bio-text">
+        <p>I am an Assistant Professor in the Department of Educational Leadership and Policy Analysis at the University of Wisconsin&ndash;Madison. My scholarship investigates how policies and practices shape resource allocation in K&ndash;12 public schools, with particular attention to mechanisms that perpetuate or disrupt inequities in students&rsquo; opportunities and outcomes. Using both quantitative and qualitative methods grounded in critical frameworks, I examine the relationships among school finance systems, district decision-making, and academic outcomes.</p>
+        <p>My research asks three interconnected questions: How do state school finance policies produce differential impacts across communities? How do educational leaders make resource allocation decisions, and what practices support improvement in equity-centered outcomes? And how can methodological approaches to K&ndash;12 educational finance better integrate considerations of power, race, and justice?</p>
+        <p>Prior to joining UW&ndash;Madison, I completed my Ph.D. in Educational Foundations, Policy, and Practice at the University of Colorado&ndash;Boulder (2022). I am a Fellow of the National Education Policy Center and a recipient of the NAEd/Spencer Postdoctoral Fellowship, the Vilas Early Career Investigator Award, the Jean Flanigan Outstanding Dissertation Award from the Association of Education Finance and Policy, and the AERA Minority Dissertation Fellowship.</p>
+      </div>
+      <div class="research-interests">
+        <h3>Research Interests</h3>
+        <div class="interests-list">
+          <span class="interest-tag">K&ndash;12 School Finance</span>
+          <span class="interest-tag">Education Policy</span>
+          <span class="interest-tag">Critical Race Quantitative Methods</span>
+          <span class="interest-tag">District Decision-Making</span>
+          <span class="interest-tag">Education Data &amp; Data Science</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PUBLICATIONS ═══ -->
+  <section id="publications">
+    <div class="container reveal">
+      <h2 class="section-title">Publications</h2>
+      <p class="pub-access-note">If you are unable to access any of my work, please <a href="mailto:cmsaldana@wisc.edu">email me</a> and I will be happy to share a copy.</p>
+
+      <div class="pub-section-label">Peer-Reviewed Journal Articles</div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">8.</span> The State of the States: Wisconsin</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">Journal of Educational Human Resources, 2026.</div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">7.</span> Preserving Rural School Districts from the Threat of Vouchers and Charters</div>
+        <div class="pub-authors">Green, P., <strong>Salda&ntilde;a, C.M.</strong>, Baker, B.D., &amp; Mead, J.F.</div>
+        <div class="pub-venue">Idaho Law Review, 62, 77, 2026.</div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">6.</span> Re-thinking Adequacy: From Educational Minimums to Educational Justice</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong> &amp; Wiley, K.</div>
+        <div class="pub-venue">Journal of Education Finance and Law, 50(2), 62&ndash;82, 2025.</div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">5.</span> &ldquo;We Can&rsquo;t Ignore the Legitimate Concerns &hellip; But&rdquo;: How Technical Framing Limits School Police Reform Despite Racial Justice Demands</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">Educational Administration Quarterly, 62(2), 275&ndash;311, 2026.</div>
+        <div class="pub-links"><a href="https://doi.org/10.1177/0013161X251405786" target="_blank">DOI</a></div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">4.</span> Examining Trends and Patterns in K&ndash;12 Security Expenditures in Texas</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong> &amp; Guan, X.</div>
+        <div class="pub-venue">Texas Education Review, 13(1), 152&ndash;170, 2025.</div>
+        <div class="pub-links"><a href="https://repositories.lib.utexas.edu/items/0672f8dd-308f-426a-ba51-8584a941b968" target="_blank">PDF</a></div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">3.</span> Exploring the Evolution of District-University Partnerships Focused on Equity-Centered Leadership</div>
+        <div class="pub-authors">Molle, D., Liou, Y.H., Childs, J., <strong>Salda&ntilde;a, C.M.</strong>, Clifford, M., Awaludin, A., &hellip; &amp; Lee, Y.S.</div>
+        <div class="pub-venue">Journal of Professional Capital and Community, 10(2), 230&ndash;249, 2025.</div>
+        <div class="pub-links"><a href="https://doi.org/10.1108/JPCC-05-2024-0073" target="_blank">DOI</a></div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">2.</span> Accountability or Austerity? Examining the Practice of K&ndash;12 Early Fiscal Intervention During Periods of Economic Crisis</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">Educational Evaluation and Policy Analysis, 47(3), 907&ndash;938, 2025.</div>
+        <div class="pub-links"><a href="https://doi.org/10.3102/01623737241254841" target="_blank">DOI</a></div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">1.</span> Teachers as Market Influencers: Towards a Policy Framework for Teacher Brand Ambassador Programs in K&ndash;12 Schools</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong>, Welner, K., Malcolm, S., &amp; Tisch, E.</div>
+        <div class="pub-venue">Education Policy Analysis Archives, 29, 2021.</div>
+        <div class="pub-links"><a href="https://doi.org/10.14507/epaa.29.5654" target="_blank">DOI</a></div>
+        <span class="pub-status status-published">Published</span>
+      </div>
+
+      <div class="pub-section-label">Handbook Chapters, Policy Briefs &amp; Reports</div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">10.</span> Multilingual Learners Learning English: What Can California Learn from Other States?</div>
+        <div class="pub-authors">Lopez, F., <strong>Salda&ntilde;a, C.M.</strong>, &amp; Santiba&ntilde;ez, L.</div>
+        <div class="pub-venue">Getting Down to Facts, SCALE Initiative &ndash; Accelerator for Learning, Stanford University, 2026.</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">9.</span> Mapping Public Open Access K&ndash;12 State Education Indicator Data Across 7 States and Washington D.C. Using the FAIR Data Principles</div>
+        <div class="pub-authors">Bowers, A.J., Choi, Y., et al., <strong>Salda&ntilde;a, C.M.</strong>, &amp; Halverson, R.</div>
+        <div class="pub-venue">Teachers College, Columbia University, 2025.</div>
+        <div class="pub-links"><a href="https://doi.org/10.7916/c0jk-5e64" target="_blank">DOI</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">8.</span> Curriculum, Standards, Assessment, and Accountability</div>
+        <div class="pub-authors">Shepard, L., Marion, S., &amp; <strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">AERA Handbook of Education Policy Research (2nd Volume), 2025.</div>
+        <div class="pub-links"><a href="https://ebooks.aera.net/catalog/book/standards-based-reform-and-school-accountability" target="_blank">Book</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">7.</span> Taking Equal Opportunity Rhetoric Seriously: Envisioning and Costing-out a P&ndash;12 Public School System in North Carolina Where Every Child Thrives</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong>, Deese, A., Welner, K., Wiley, K., Grant, T., York, A., Valladares, M., &amp; Myers, J.</div>
+        <div class="pub-venue">National Education Policy Center, 2024.</div>
+        <div class="pub-links"><a href="https://nepc.colorado.edu/publication/rd-equal-opportunity" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">6.</span> Educational Accountability 3.0</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong> (contributing author)</div>
+        <div class="pub-venue">National Education Policy Center &amp; Beyond Test Scores Project, 2023.</div>
+        <div class="pub-links"><a href="https://nepc.colorado.edu/publication/resource-document-beyond-essa" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">5.</span> The Use and Misuse of Large-scale Assessment in Educational Policy</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong> &amp; Shepard, L.</div>
+        <div class="pub-venue">International Encyclopedia of Education (4th Volume), 2023.</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">4.</span> NEPC Review: Michigan Student Opportunity Scholarships</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">National Education Policy Center, 2022.</div>
+        <div class="pub-links"><a href="https://nepc.colorado.edu/thinktank/opportunity-scholarships" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">3.</span> Big Claims, Little Evidence, Lots of Money: The Reality Behind the Summit Learning Program</div>
+        <div class="pub-authors">Boninger, F., Molnar, A., &amp; <strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">National Education Policy Center, 2020.</div>
+        <div class="pub-links"><a href="https://nepc.colorado.edu/publication/summit-2020" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">2.</span> Personalized Learning and the Digital Privatization of Curriculum and Teaching</div>
+        <div class="pub-authors">Boninger, F., Molnar, A., &amp; <strong>Salda&ntilde;a, C.M.</strong></div>
+        <div class="pub-venue">National Education Policy Center, 2019.</div>
+        <div class="pub-links"><a href="https://nepc.colorado.edu/publication/personalized-learning" target="_blank">PDF</a></div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-title"><span class="pub-number">1.</span> Examining the New Phenomenon of Teachers as Brand Ambassadors</div>
+        <div class="pub-authors"><strong>Salda&ntilde;a, C.M.</strong>, Welner, K.G., Malcolm, S., &amp; Tisch, E.</div>
+        <div class="pub-venue">National Education Policy Center, 2019.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ TEACHING ═══ -->
+  <section id="teaching">
+    <div class="container reveal">
+      <h2 class="section-title">Teaching</h2>
+      <div class="bio-text" style="margin-bottom: 1.75rem;">
+        <p>My teaching is guided by two commitments: creating learning experiences that generate new ideas and break perceived barriers, and maintaining high expectations while providing extensive support. Across all of my courses, I want students to understand that resources in education are shaped by power, race, wealth, and politics&mdash;and that critical quantitative methods offer a powerful way to study these phenomena. Students leave my courses not only with technical skills but with a critical lens for understanding how data and methods are never neutral, along with artifacts they can use throughout their careers.</p>
+      </div>
+      <div class="teaching-grid">
+        <div class="course-card">
+          <div class="course-code">ELPA 823</div>
+          <div class="course-name">Data Management for Education Policy Analysis</div>
+          <div class="course-term">Spring 2026</div>
+        </div>
+        <div class="course-card">
+          <div class="course-code">ELPA 940</div>
+          <div class="course-name">Critical Theory in Advanced Quantitative Methods</div>
+          <div class="course-term">Fall 2025</div>
+        </div>
+        <div class="course-card">
+          <div class="course-code">ELPA 832</div>
+          <div class="course-name">Resource Allocation for Social Justice &amp; Equity</div>
+          <div class="course-term">Fall 2023 &middot; Spring 2025</div>
+        </div>
+        <div class="course-card">
+          <div class="course-code">ELPA 822</div>
+          <div class="course-name">Introduction to Quantitative Inquiry in Education</div>
+          <div class="course-term">Spring 2024 &middot; Fall 2024</div>
+        </div>
+      </div>
+
+      <div class="advising-section">
+        <h3>Advising &amp; Mentoring</h3>
+        <div class="advising-text">
+          <p>I believe good advising starts with deeply caring about students&rsquo; success and allowing them to define what success means for them. Whether a doctoral student aspires to a tenure-track position or wants to strengthen their practice as an educational leader, I work to meet them where they are. My advising follows a developmental approach&mdash;from onboarding in research fundamentals through progressively complex work in data management, analysis, and writing for publication&mdash;while building a community of emerging scholars who support one another.</p>
+          <p>I currently advise four Ph.D. students, three Executive Ph.D. students, and three M.A. students. I have chaired or co-chaired three dissertations&mdash;including one that received the department&rsquo;s Dissertation of the Year Award&mdash;and serve on numerous additional dissertation and preliminary exam committees. My students have co-authored peer-reviewed publications and presented at AERA, AEFP, and UCEA.</p>
+          <p>What I hope students take from working with me extends beyond their degrees: a strong sense of self, confidence that they are ready to meet whatever challenges arise, and the knowledge that they have a lifelong supporter and thought partner. <strong>If you are interested in working together, please don&rsquo;t hesitate to <a href="mailto:cmsaldana@wisc.edu" style="color: var(--accent); border-bottom: 1px solid var(--accent);">reach out</a>.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CV ═══ -->
+  <section id="cv">
+    <div class="container reveal">
+      <h2 class="section-title">Curriculum Vitae</h2>
+      <p class="cv-intro">A summary of my academic background is below.</p>
+
+      <div class="cv-timeline">
+        <div class="cv-category">
+          <h3>Education</h3>
+          <div class="cv-entry">
+            <div class="cv-year-range">2022</div>
+            <div>
+              <div class="cv-detail-title">Ph.D. in Educational Foundations, Policy, and Practice</div>
+              <div class="cv-detail-sub">University of Colorado&ndash;Boulder</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2018</div>
+            <div>
+              <div class="cv-detail-title">M.A. in Economics</div>
+              <div class="cv-detail-sub">California State University, Fullerton</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2012</div>
+            <div>
+              <div class="cv-detail-title">B.A. in Economics</div>
+              <div class="cv-detail-sub">University of California, San Diego</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-category">
+          <h3>Academic Position</h3>
+          <div class="cv-entry">
+            <div class="cv-year-range">2022 &ndash; Present</div>
+            <div>
+              <div class="cv-detail-title">Assistant Professor, Dept. of Educational Leadership &amp; Policy Analysis</div>
+              <div class="cv-detail-sub">University of Wisconsin&ndash;Madison</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-category">
+          <h3>Selected Honors &amp; Awards</h3>
+          <div class="cv-entry">
+            <div class="cv-year-range">2026</div>
+            <div>
+              <div class="cv-detail-title">NAEd/Spencer Postdoctoral Fellowship</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2025</div>
+            <div>
+              <div class="cv-detail-title">Vilas Early Career Investigator Award</div>
+              <div class="cv-detail-sub">University of Wisconsin&ndash;Madison</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2024</div>
+            <div>
+              <div class="cv-detail-title">Jean Flanigan Outstanding Dissertation Award (co-recipient)</div>
+              <div class="cv-detail-sub">Association of Education Finance and Policy</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2023</div>
+            <div>
+              <div class="cv-detail-title">Fellow, National Education Policy Center</div>
+              <div class="cv-detail-sub">University of Colorado&ndash;Boulder</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2022 &ndash; 2023</div>
+            <div>
+              <div class="cv-detail-title">Anna Julia Cooper Postdoctoral Fellowship</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2021 &ndash; 2022</div>
+            <div>
+              <div class="cv-detail-title">AERA Minority Dissertation Fellowship in Education Research</div>
+            </div>
+          </div>
+          <div class="cv-entry">
+            <div class="cv-year-range">2017 &ndash; 2021</div>
+            <div>
+              <div class="cv-detail-title">Miramontes Fellowship</div>
+              <div class="cv-detail-sub">University of Colorado&ndash;Boulder</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-category">
+          <h3>Selected Research Funding</h3>
+          <div class="cv-funding-item">
+            <div class="cv-funding-title">Comprehensive Assessment of Leadership for Learning &ndash; Measuring Equity Indicators</div>
+            <div class="cv-funding-detail">The Wallace Foundation &middot; Co-Principal Investigator &middot; 2025&ndash;2026</div>
+            <div class="cv-funding-collab">Co-PIs: A.J. Bowers (Teachers College, Columbia University) &amp; R. Halverson (UW&ndash;Madison)</div>
+            <div class="cv-funding-amount">$2,000,000</div>
+          </div>
+          <div class="cv-funding-item">
+            <div class="cv-funding-title">CALL for Equity-Centered Leadership (CALL-ECL)</div>
+            <div class="cv-funding-detail">The Wallace Foundation &middot; Investigator &middot; 2021&ndash;2027</div>
+            <div class="cv-funding-collab">PIs: R. Halverson, J. Diamond, M. Clifford, L. Gomez, A.J. Bowers, T. Causey-Konat&eacute;, A. Welton, &amp; C. Kelley</div>
+            <div class="cv-funding-amount">$8,100,000</div>
+          </div>
+          <div class="cv-funding-item">
+            <div class="cv-funding-title">Vilas Early Career Investigator Award</div>
+            <div class="cv-funding-detail">University of Wisconsin&ndash;Madison &middot; 2025&ndash;2028</div>
+            <div class="cv-funding-amount">$60,000</div>
+          </div>
+          <div class="cv-funding-item">
+            <div class="cv-funding-title">Transforming How Schools, Districts, and Communities Coordinate Resources to Improve Resource Allocation for Student Success</div>
+            <div class="cv-funding-detail">Spencer Foundation, Vision Grant &middot; Principal Investigator &middot; 2026&ndash;2027</div>
+            <div class="cv-funding-collab">Co-PIs: L. Gomez; Consultant: T. Causey-Konat&eacute;</div>
+            <div class="cv-funding-amount">$75,000</div>
+          </div>
+          <div class="cv-funding-item">
+            <div class="cv-funding-title">Platform Promises, District Realities: Examining How Organizational Capacity Shapes the Adoption of K&ndash;12 Educational Technology</div>
+            <div class="cv-funding-detail">Spencer Foundation, Postdoctoral Fellowship &middot; 2026&ndash;2028</div>
+            <div class="cv-funding-amount">$70,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Christopher M. Salda&ntilde;a &middot; University of Wisconsin&ndash;Madison &middot; <a href="mailto:cmsaldana@wisc.edu">Get in touch</a></p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -75% 0px' });
+  sections.forEach(section => observer.observe(section));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
